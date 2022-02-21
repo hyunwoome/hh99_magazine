@@ -1,17 +1,19 @@
-package com.sparta.hh99_magazine.domain;
+package com.sparta.hh99_magazine.domain.user;
 
 import javax.persistence.*;
 
-@Table(name = "user")
 @Entity
-public class User extends Timestamped {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private String username;
 
+    @Column
     private String name;
 
+    @Column
     private String password;
 }

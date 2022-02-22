@@ -1,6 +1,6 @@
 package com.sparta.hh99_magazine.web.dto;
 
-public class UserSignupRequestDto {
+public class SignupRequestDto {
     private String username;
     private String name;
     private String password;
@@ -17,9 +17,9 @@ public class UserSignupRequestDto {
         return password;
     }
 
-    public UserSignupRequestDto(){}
+    public SignupRequestDto(){}
 
-    public UserSignupRequestDto(String username, String name, String password) {
+    public SignupRequestDto(String username, String name, String password) {
         this.username = username;
         this.name = name;
         this.password = password;

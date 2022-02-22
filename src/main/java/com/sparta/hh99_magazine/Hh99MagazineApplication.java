@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing // JPA Auditing 활성화
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication // (exclude = SecurityAutoConfiguration.class)
 public class Hh99MagazineApplication {
 
     public static void main(String[] args) {

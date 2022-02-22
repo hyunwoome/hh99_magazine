@@ -1,7 +1,7 @@
 package com.sparta.hh99_magazine.domain.user;
 
 import com.sparta.hh99_magazine.domain.Timestamped;
-import com.sparta.hh99_magazine.web.dto.UserSignupRequestDto;
+import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
 
 import javax.persistence.*;
 
@@ -11,13 +11,13 @@ public class User extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     public Long getId() {
@@ -38,9 +38,9 @@ public class User extends Timestamped {
 
     public User() {}
 
-    public User(UserSignupRequestDto userSignupRequestDto) {
-        this.username = userSignupRequestDto.getUsername();
-        this.name = userSignupRequestDto.getUsername();
-        this.password = userSignupRequestDto.getPassword();
+    public User(SignupRequestDto signupRequestDto) {
+        this.username = signupRequestDto.getUsername();
+        this.name = signupRequestDto.getUsername();
+        this.password = signupRequestDto.getPassword();
     }
 }

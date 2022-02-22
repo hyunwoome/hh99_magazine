@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
@@ -30,5 +29,11 @@ public class User extends Timestamped {
         this.username = signupRequestDto.getUsername();
         this.name = signupRequestDto.getName();
         this.password = signupRequestDto.getPassword();
+    }
+
+    public User(String username, String name, String password) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
     }
 }

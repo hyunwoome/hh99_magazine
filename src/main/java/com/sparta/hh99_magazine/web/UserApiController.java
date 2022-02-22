@@ -1,5 +1,6 @@
 package com.sparta.hh99_magazine.web;
 
+import com.sparta.hh99_magazine.domain.user.User;
 import com.sparta.hh99_magazine.security.UserDetailsImpl;
 import com.sparta.hh99_magazine.service.user.UserService;
 import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
@@ -17,16 +18,16 @@ public class UserApiController {
         this.userService = userService;
     }
 
-    // 로그인 (페이지단)
-//    @GetMapping("/api/signin")
-//    public ResponseEntity signinUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return new ResponseEntity("로그인페이지", HttpStatus.OK);
-//    }
-
     // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity signupUser(@RequestBody SignupRequestDto signupRequestDto) {
         userService.registerUser(signupRequestDto);
         return new ResponseEntity("회원가입 완료", HttpStatus.OK);
+    }
+
+    // 로그인 성공 후 확인용
+    @GetMapping("/")
+    public User tmpResponse(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userDetails.getUser();
     }
 }

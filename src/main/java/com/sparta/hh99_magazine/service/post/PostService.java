@@ -4,6 +4,7 @@ import com.sparta.hh99_magazine.domain.post.Post;
 import com.sparta.hh99_magazine.domain.post.PostRepository;
 import com.sparta.hh99_magazine.web.dto.PostRequestDto;
 import com.sparta.hh99_magazine.web.dto.PostResponseDto;
+import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -30,8 +31,8 @@ public class PostService {
 
     // 게시물 작성
     @Transactional
-    public Long createPost(PostRequestDto postRequestDto) {
-        Post post = new Post(postRequestDto);
+    public Long createPost(PostRequestDto PostRequestDto) {
+        Post post = new Post(PostRequestDto);
         postRepository.save(post);
         return post.getId();
     }

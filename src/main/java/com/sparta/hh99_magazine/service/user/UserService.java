@@ -13,9 +13,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // 로그인
-//    public void
-
     // 회원가입
     public void registerUser(SignupRequestDto signupRequestDto) {
         User user = new User(signupRequestDto);

@@ -1,6 +1,8 @@
 package com.sparta.hh99_magazine.advice;
 
+import com.sparta.hh99_magazine.advice.exception.LoginCheckException;
 import com.sparta.hh99_magazine.advice.exception.PasswordValidateException;
+import com.sparta.hh99_magazine.advice.exception.UsernameDuplicateException;
 import com.sparta.hh99_magazine.advice.exception.UsernameValidateException;
 import com.sparta.hh99_magazine.response.MessageResponse;
 import lombok.Getter;
@@ -27,5 +29,13 @@ public class ExceptionController {
         return new ResponseEntity<>(new MessageResponse("비밀번호는 4글자 이상, 알파벳 대소문자와 숫자만 가능하며, 아이디와 동일할 수 없습니다."), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UsernameDuplicateException.class)
+    public ResponseEntity<MessageResponse> UsernameDuplicateException(UsernameDuplicateException e) {
+        return new ResponseEntity<>(new MessageResponse("중복된 아이디가 존재합니다."), HttpStatus.BAD_REQUEST);
+    }
 
+    @ExceptionHandler(LoginCheckException.class)
+    public ResponseEntity<MessageResponse> LoginCheckException(LoginCheckException e) {
+        return new ResponseEntity<>(new MessageResponse("아이디와 비밀번호를 확인해주세요."), HttpStatus.BAD_REQUEST);
+    }
 }

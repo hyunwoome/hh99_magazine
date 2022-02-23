@@ -1,5 +1,6 @@
 package com.sparta.hh99_magazine.web;
 
+import com.sparta.hh99_magazine.advice.exception.LoginCheckException;
 import com.sparta.hh99_magazine.response.MessageResponse;
 import com.sparta.hh99_magazine.service.user.UserService;
 import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
@@ -19,5 +20,11 @@ public class UserApiController {
     public ResponseEntity<MessageResponse> signupUser(@RequestBody SignupRequestDto signupRequestDto) {
         userService.registerUser(signupRequestDto);
         return new ResponseEntity<>(new MessageResponse("회원가입 성공"), HttpStatus.OK);
+    }
+
+    // 로그인 실패
+    @GetMapping("/signinError")
+    public LoginCheckException signinError() {
+        throw new LoginCheckException();
     }
 }

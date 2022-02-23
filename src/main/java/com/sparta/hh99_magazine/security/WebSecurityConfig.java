@@ -31,7 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-
                 // 로그인 허용
                 .formLogin()
                 .loginPage("/api/signin")

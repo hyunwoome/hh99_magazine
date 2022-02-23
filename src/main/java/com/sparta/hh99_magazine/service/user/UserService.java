@@ -1,5 +1,7 @@
 package com.sparta.hh99_magazine.service.user;
 
+import com.sparta.hh99_magazine.advice.exception.PasswordValidateException;
+import com.sparta.hh99_magazine.advice.exception.UsernameValidateException;
 import com.sparta.hh99_magazine.domain.user.User;
 import com.sparta.hh99_magazine.domain.user.UserRepository;
 import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
@@ -22,11 +24,18 @@ public class UserService {
         String username = signupRequestDto.getUsername();
         String name = signupRequestDto.getName();
         String password = signupRequestDto.getPassword();
-        // Model에서 구현
-        // 1. 닉네임은 최소 3자 이상, 알파벳 대소문자, 숫자로만 구성
-        // 2. 비밀번호는 최소 4자 이상, 닉네임과 같을 시 회원가입 실패
-        // 3. 비밀번호 확인은 비밀번호와 정확하게 일치
+        String check_password = signupRequestDto.getCheck_password();
+        if (!(isValidateUsername(username))) { throw new UsernameValidateException(); }
+        if (!(isValidatePassword(username, password, check_password))) { throw new PasswordValidateException(); }
         User user = new User(username, name, passwordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    private boolean isValidateUsername(String username) {
+        return username.length() > 2 && username.matches("^[A-Za-z0-9]*$");
+    }
+
+    private boolean isValidatePassword(String username, String password, String check_password) {
+        return password.length() > 3 && !(password.equals(username)) && password.equals(check_password);
     }
 }

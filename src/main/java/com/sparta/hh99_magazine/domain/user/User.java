@@ -1,8 +1,6 @@
 package com.sparta.hh99_magazine.domain.user;
 
 import com.sparta.hh99_magazine.domain.Timestamped;
-import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,12 +22,6 @@ public class User extends Timestamped {
 
     @Column(nullable = false)
     private String password;
-
-    public User(SignupRequestDto signupRequestDto) {
-        this.username = signupRequestDto.getUsername();
-        this.name = signupRequestDto.getName();
-        this.password = signupRequestDto.getPassword();
-    }
 
     public User(String username, String name, String password) {
         this.username = username;

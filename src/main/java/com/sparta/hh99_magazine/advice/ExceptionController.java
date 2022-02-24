@@ -46,4 +46,9 @@ public class ExceptionController {
     public ResponseEntity<MessageResponse> LoginRequireException(LoginRequireException e) {
         return new ResponseEntity<>(new MessageResponse("로그인을 해야합니다."), HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(PostIdNotFoundException.class)
+    public ResponseEntity<MessageResponse> PostIdNotFoundException(PostIdNotFoundException e) {
+        return new ResponseEntity<>(new MessageResponse("게시글을 찾을 수 없습니다."), HttpStatus.BAD_REQUEST);
+    }
 }

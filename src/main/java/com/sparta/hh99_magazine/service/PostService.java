@@ -1,5 +1,6 @@
 package com.sparta.hh99_magazine.service;
 
+import com.sparta.hh99_magazine.advice.exception.PostIdNotFoundException;
 import com.sparta.hh99_magazine.domain.post.Post;
 import com.sparta.hh99_magazine.domain.post.PostRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,5 +16,11 @@ public class PostService {
     @Transactional
     public void save(Post post) {
         postRepository.save(post);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Post postById = postRepository.findById(id).orElseThrow(PostIdNotFoundException::new);
+        postRepository.delete(postById);
     }
 }

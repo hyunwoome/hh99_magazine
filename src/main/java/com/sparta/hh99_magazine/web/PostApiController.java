@@ -12,10 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -40,8 +37,15 @@ public class PostApiController {
         return new ResponseEntity<>(new MessageResponse("게시글 등록 완료"), HttpStatus.OK);
     }
 
-
     // 게시글 삭제 (로그인)
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<MessageResponse> delete(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new LoginRequireException();
+        }
+        postService.delete(id);
+        return new ResponseEntity<>(new MessageResponse("게시글이 삭제되었습니다."), HttpStatus.OK);
+    }
 
 
     // 게시글 수정 (로그인)

@@ -30,4 +30,10 @@ public class UserApiController {
     public void signinError() {
         throw new LoginCheckException();
     }
+
+    // 로그아웃 성공
+    @GetMapping("/signoutSuccess")
+    public ResponseEntity<MessageResponse> signOut() {
+        return new ResponseEntity<>(new MessageResponse("로그아웃 성공"), HttpStatus.OK);
+    }
 }

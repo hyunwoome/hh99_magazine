@@ -27,20 +27,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                // 모든 요청 인증
-                .antMatchers("/api/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                // 로그인 허용
+                    .antMatchers("/api/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
+                    .and()
                 .formLogin()
-                .loginPage("/api/signin")
-                .loginProcessingUrl("/api/signin")
-                .defaultSuccessUrl("/")
-                .failureUrl("/api/signinError")
-                .permitAll()
-                .and()
-                // 로그아웃 허용
+                    .loginPage("/api/signin")
+                    .loginProcessingUrl("/api/signin")
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/api/signinError")
+                    .permitAll()
+                    .and()
                 .logout()
-                .permitAll();
+                    .logoutSuccessUrl("/api/signoutSuccess")
+                    .invalidateHttpSession(true) // 선택
+                    .deleteCookies("JSESSIONID") // 선택
+                    .permitAll();
     }
 }

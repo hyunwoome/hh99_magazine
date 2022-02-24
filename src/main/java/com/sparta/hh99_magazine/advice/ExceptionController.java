@@ -1,9 +1,6 @@
 package com.sparta.hh99_magazine.advice;
 
-import com.sparta.hh99_magazine.advice.exception.LoginCheckException;
-import com.sparta.hh99_magazine.advice.exception.PasswordValidateException;
-import com.sparta.hh99_magazine.advice.exception.UsernameDuplicateException;
-import com.sparta.hh99_magazine.advice.exception.UsernameValidateException;
+import com.sparta.hh99_magazine.advice.exception.*;
 import com.sparta.hh99_magazine.response.MessageResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +34,10 @@ public class ExceptionController {
     @ExceptionHandler(LoginCheckException.class)
     public ResponseEntity<MessageResponse> LoginCheckException(LoginCheckException e) {
         return new ResponseEntity<>(new MessageResponse("아이디와 비밀번호를 확인해주세요."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LoginDuplicateException.class)
+    public ResponseEntity<MessageResponse> LoginDuplicateException(LoginDuplicateException e) {
+        return new ResponseEntity<>(new MessageResponse("이미 로그인 되어있습니다."), HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,4 +1,4 @@
-package com.sparta.hh99_magazine.service.user;
+package com.sparta.hh99_magazine.service;
 
 import com.sparta.hh99_magazine.advice.exception.PasswordValidateException;
 import com.sparta.hh99_magazine.advice.exception.UsernameDuplicateException;
@@ -21,17 +21,17 @@ public class UserService {
 
     // 회원가입
     @Transactional
-    public void registerUser(SignupRequestDto signupRequestDto) {
+    public void save(SignupRequestDto signupRequestDto) {
         String username = signupRequestDto.getUsername();
         String name = signupRequestDto.getName();
         String password = signupRequestDto.getPassword();
         String check_password = signupRequestDto.getCheck_password();
         // 중복 Username 존재
-        if (!(isDuplicateUsername(username))) {throw new UsernameDuplicateException();}
+        if (!(isDuplicateUsername(username))) { throw new UsernameDuplicateException(); }
         // 닉네임은 최소 3자 이상, 알파벳 대소문자, 숫자로 구성
-        if (!(isValidateUsername(username))) {throw new UsernameValidateException();}
+        if (!(isValidateUsername(username))) { throw new UsernameValidateException(); }
         // 비밀번호는 최소 4자 이상, 닉네임과 같은 값이 포함된 경우 실패, 비밀번호와 확인 비밀번호는 일치
-        if (!(isValidatePassword(username, password, check_password))) {throw new PasswordValidateException();}
+        if (!(isValidatePassword(username, password, check_password))) { throw new PasswordValidateException(); }
         User user = new User(username, name, passwordEncoder.encode(password));
         userRepository.save(user);
     }

@@ -1,5 +1,6 @@
 package com.sparta.hh99_magazine.web;
 
+import com.sparta.hh99_magazine.advice.exception.LoginRequireException;
 import com.sparta.hh99_magazine.domain.post.Post;
 import com.sparta.hh99_magazine.domain.user.User;
 import com.sparta.hh99_magazine.response.MessageResponse;
@@ -28,6 +29,9 @@ public class PostApiController {
     // 게시글 작성 (로그인)
     @PostMapping("/posts")
     public ResponseEntity<MessageResponse> save(@RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        if (userDetails == null) {
+            throw new LoginRequireException();
+        }
         String imgUrl = postRequestDto.getImgUrl();
         String contents = postRequestDto.getContents();
         User user = userDetails.getUser();

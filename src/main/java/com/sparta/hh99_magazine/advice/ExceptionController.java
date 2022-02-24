@@ -4,6 +4,7 @@ import com.sparta.hh99_magazine.advice.exception.*;
 import com.sparta.hh99_magazine.response.MessageResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,5 +40,10 @@ public class ExceptionController {
     @ExceptionHandler(LoginDuplicateException.class)
     public ResponseEntity<MessageResponse> LoginDuplicateException(LoginDuplicateException e) {
         return new ResponseEntity<>(new MessageResponse("이미 로그인 되어있습니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(LoginRequireException.class)
+    public ResponseEntity<MessageResponse> LoginRequireException(LoginRequireException e) {
+        return new ResponseEntity<>(new MessageResponse("로그인을 해야합니다."), HttpStatus.FORBIDDEN);
     }
 }

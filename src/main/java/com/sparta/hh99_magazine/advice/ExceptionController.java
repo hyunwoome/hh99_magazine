@@ -44,11 +44,16 @@ public class ExceptionController {
 
     @ExceptionHandler(LoginRequireException.class)
     public ResponseEntity<MessageResponse> LoginRequireException(LoginRequireException e) {
-        return new ResponseEntity<>(new MessageResponse("로그인을 해야합니다."), HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(new MessageResponse("로그인을 해야합니다."), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(PostIdNotFoundException.class)
     public ResponseEntity<MessageResponse> PostIdNotFoundException(PostIdNotFoundException e) {
         return new ResponseEntity<>(new MessageResponse("게시글을 찾을 수 없습니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UsernameNotSameException.class)
+    public ResponseEntity<MessageResponse> UsernameNotSameException(UsernameNotSameException e) {
+        return new ResponseEntity<>(new MessageResponse("게시글 주인만 삭제가 가능합니다."), HttpStatus.UNAUTHORIZED);
     }
 }

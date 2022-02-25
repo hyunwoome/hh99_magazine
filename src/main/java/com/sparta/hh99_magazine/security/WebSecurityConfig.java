@@ -32,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest()
                     .authenticated()
                     .and()
+                // TODO: 로그인이 계속 진행되는 경우 (계속 세션 발급됨)
                 .formLogin()
                     .loginPage("/api/signin")
                     .loginProcessingUrl("/api/signin")

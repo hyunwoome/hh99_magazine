@@ -1,13 +1,17 @@
 package com.sparta.hh99_magazine.domain;
 
-import com.sparta.hh99_magazine.dto.PostRequestDto;
+import com.sparta.hh99_magazine.dto.CreatePostRequestDto;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
 @Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Builder
 @Entity
 public class Post extends Timestamped {
     @Id
@@ -25,14 +29,8 @@ public class Post extends Timestamped {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Post(String imgUrl, String contents, User user) {
-        this.imgUrl = imgUrl;
-        this.contents = contents;
-        this.user = user;
-    }
-
-    public void update(PostRequestDto postRequestDto) {
-        this.imgUrl = postRequestDto.getImgUrl();
-        this.contents = postRequestDto.getContents();
+    public void update(CreatePostRequestDto createPostRequestDto) {
+        this.imgUrl = createPostRequestDto.getImgUrl();
+        this.contents = createPostRequestDto.getContents();
     }
 }

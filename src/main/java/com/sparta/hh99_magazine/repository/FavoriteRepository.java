@@ -9,8 +9,11 @@ import java.util.Optional;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     @Query("select count(f) from Favorite f where f.post.id = :postID")
-    public int countByPostId(@Param("postID") Long id);
+    int countByPostId(@Param("postID") Long id);
 
-    @Query("select f from Favorite f where f.user.id = :userID and f.post.id = :postID")
-    public Optional<Favorite> findByUserIdAndPostId(@Param("userID") Long userId, @Param("postID") Long postId);
+    @Query("select f from Favorite f where f.user.id = :userID")
+    Optional<Favorite> findByUserIdAndPostId(@Param("userID") Long userId);
+
+    // 누른 사람만 있으면 될 듯?
+    // @Query("select f from Favorite f where f.user.id = :userID and f.post.id = :postID")
 }

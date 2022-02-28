@@ -17,8 +17,8 @@ public class FavoriteService {
         return favoriteRepository.countByPostId(id);
     }
 
-    public Optional<Favorite> findByUserIdAndPostId(Long userId, Long postId) {
-        return favoriteRepository.findByUserIdAndPostId(userId, postId);
+    public Optional<Favorite> findByUserIdAndPostId(Long userId) {
+        return favoriteRepository.findByUserIdAndPostId(userId);
     }
 
     public void save(Favorite favorite) {

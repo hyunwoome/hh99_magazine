@@ -26,6 +26,7 @@ public class UserService {
     private final SignupValidator signupValidator;
     private final SigninValidator signinValidator;
 
+    // 회원가입
     public void createUser(SignupRequestDto signupRequestDto) {
         signupValidator.validateSignup(signupRequestDto);
         String encodedPassword = passwordEncoder.encode(signupRequestDto.getPassword());
@@ -38,6 +39,7 @@ public class UserService {
         userRepository.save(user);
     }
 
+    // 로그인
     public SigninResponseDto signinUser(SigninRequestDto signinRequestDto) {
         User user = signinValidator.validateSignin(signinRequestDto);
         String username = user.getUsername();

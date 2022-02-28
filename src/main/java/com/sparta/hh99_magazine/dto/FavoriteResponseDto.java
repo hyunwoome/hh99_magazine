@@ -1,4 +1,4 @@
-package com.sparta.hh99_magazine.web.dto;
+package com.sparta.hh99_magazine.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

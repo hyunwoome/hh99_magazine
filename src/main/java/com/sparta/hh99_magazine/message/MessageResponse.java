@@ -1,4 +1,4 @@
-package com.sparta.hh99_magazine.response;
+package com.sparta.hh99_magazine.message;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

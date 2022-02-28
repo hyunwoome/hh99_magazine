@@ -1,9 +1,9 @@
 package com.sparta.hh99_magazine.service;
 
 import com.sparta.hh99_magazine.advice.exception.PostIdNotFoundException;
-import com.sparta.hh99_magazine.domain.post.Post;
-import com.sparta.hh99_magazine.domain.post.PostRepository;
-import com.sparta.hh99_magazine.web.dto.PostRequestDto;
+import com.sparta.hh99_magazine.domain.Post;
+import com.sparta.hh99_magazine.repository.PostRepository;
+import com.sparta.hh99_magazine.dto.PostRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

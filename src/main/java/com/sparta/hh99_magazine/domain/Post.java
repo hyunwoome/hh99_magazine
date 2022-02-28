@@ -1,8 +1,6 @@
-package com.sparta.hh99_magazine.domain.post;
+package com.sparta.hh99_magazine.domain;
 
-import com.sparta.hh99_magazine.domain.Timestamped;
-import com.sparta.hh99_magazine.domain.user.User;
-import com.sparta.hh99_magazine.web.dto.PostRequestDto;
+import com.sparta.hh99_magazine.dto.PostRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

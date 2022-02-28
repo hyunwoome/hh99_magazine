@@ -1,10 +1,9 @@
 package com.sparta.hh99_magazine.advice;
 
 import com.sparta.hh99_magazine.advice.exception.*;
-import com.sparta.hh99_magazine.response.MessageResponse;
+import com.sparta.hh99_magazine.message.MessageResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,6 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @ControllerAdvice
 @RestController
 public class ExceptionController {
+
+    @ExceptionHandler(PasswordNotSameException.class)
+    public ResponseEntity<MessageResponse> PasswordNotSameException(PasswordNotSameException e) {
+        return new ResponseEntity<>(new MessageResponse("비밀번호가 일치하지 않습니다."), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(UsernameNotFoundCustomException.class)
+    public ResponseEntity<MessageResponse> UsernameNotFoundException(UsernameNotFoundCustomException e) {
+        return new ResponseEntity<>(new MessageResponse("아이디가 존재하지 않습니다."), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(UsernameValidateException.class)
     public ResponseEntity<MessageResponse> UsernameValidateException(UsernameValidateException e) {

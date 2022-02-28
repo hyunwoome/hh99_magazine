@@ -1,5 +1,6 @@
-package com.sparta.hh99_magazine.domain.favorite;
+package com.sparta.hh99_magazine.repository;
 
+import com.sparta.hh99_magazine.domain.Favorite;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

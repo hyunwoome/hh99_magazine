@@ -1,7 +1,7 @@
 package com.sparta.hh99_magazine.service;
 
-import com.sparta.hh99_magazine.domain.favorite.Favorite;
-import com.sparta.hh99_magazine.domain.favorite.FavoriteRepository;
+import com.sparta.hh99_magazine.domain.Favorite;
+import com.sparta.hh99_magazine.repository.FavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

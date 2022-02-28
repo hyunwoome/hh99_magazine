@@ -1,51 +1,52 @@
 package com.sparta.hh99_magazine.service;
 
-import com.sparta.hh99_magazine.advice.exception.PasswordValidateException;
-import com.sparta.hh99_magazine.advice.exception.UsernameDuplicateException;
-import com.sparta.hh99_magazine.advice.exception.UsernameValidateException;
-import com.sparta.hh99_magazine.domain.user.User;
-import com.sparta.hh99_magazine.domain.user.UserRepository;
-import com.sparta.hh99_magazine.web.dto.SignupRequestDto;
+import com.sparta.hh99_magazine.domain.User;
+import com.sparta.hh99_magazine.dto.SigninRequestDto;
+import com.sparta.hh99_magazine.dto.SigninResponseDto;
+import com.sparta.hh99_magazine.dto.SignupRequestDto;
+import com.sparta.hh99_magazine.repository.UserRepository;
+import com.sparta.hh99_magazine.security.JwtTokenProvider;
+import com.sparta.hh99_magazine.validator.SigninValidator;
+import com.sparta.hh99_magazine.validator.SignupValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
+import java.util.Collections;
+import java.util.List;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService {
+    private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
+    private final SignupValidator signupValidator;
+    private final SigninValidator signinValidator;
 
-    // 회원가입
-    @Transactional
-    public void save(SignupRequestDto signupRequestDto) {
-        String username = signupRequestDto.getUsername();
-        String name = signupRequestDto.getName();
-        String password = signupRequestDto.getPassword();
-        String check_password = signupRequestDto.getCheck_password();
-        // 중복 Username 존재
-        if (!(isDuplicateUsername(username))) { throw new UsernameDuplicateException(); }
-        // 닉네임은 최소 3자 이상, 알파벳 대소문자, 숫자로 구성
-        if (!(isValidateUsername(username))) { throw new UsernameValidateException(); }
-        // 비밀번호는 최소 4자 이상, 닉네임과 같은 값이 포함된 경우 실패, 비밀번호와 확인 비밀번호는 일치
-        if (!(isValidatePassword(username, password, check_password))) { throw new PasswordValidateException(); }
-        User user = new User(username, name, passwordEncoder.encode(password));
+    public void createUser(SignupRequestDto signupRequestDto) {
+        signupValidator.validateSignup(signupRequestDto);
+        String encodedPassword = passwordEncoder.encode(signupRequestDto.getPassword());
+        User user = User.builder()
+                .username(signupRequestDto.getUsername())
+                .name(signupRequestDto.getName())
+                .password(encodedPassword)
+                .roles(Collections.singletonList("ROLE_USER"))
+                .build();
         userRepository.save(user);
     }
 
-    private boolean isDuplicateUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        return !(user.isPresent());
-    }
-
-    private boolean isValidateUsername(String username) {
-        return username.length() > 2 && username.matches("^[A-Za-z0-9]*$");
-    }
-
-    private boolean isValidatePassword(String username, String password, String check_password) {
-        return password.length() > 3 && !(password.equals(username)) && password.equals(check_password);
+    public SigninResponseDto signinUser(SigninRequestDto signinRequestDto) {
+        User user = signinValidator.validateSignin(signinRequestDto);
+        String username = user.getUsername();
+        List<String> role = user.getRoles();
+        return SigninResponseDto.builder()
+                .userId(user.getId())
+                .username(user.getUsername())
+                .name(user.getName())
+                .token(jwtTokenProvider.createToken(username, role))
+                .build();
     }
 }

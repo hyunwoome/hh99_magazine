@@ -1,5 +1,6 @@
-package com.sparta.hh99_magazine.domain.user;
+package com.sparta.hh99_magazine.repository;
 
+import com.sparta.hh99_magazine.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

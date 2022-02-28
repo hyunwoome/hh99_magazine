@@ -1,7 +1,5 @@
-package com.sparta.hh99_magazine.domain.favorite;
+package com.sparta.hh99_magazine.domain;
 
-import com.sparta.hh99_magazine.domain.post.Post;
-import com.sparta.hh99_magazine.domain.user.User;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;

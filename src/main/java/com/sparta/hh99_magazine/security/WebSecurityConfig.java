@@ -11,11 +11,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
@@ -37,10 +37,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/api/posts/**").hasRole("USER")
-//                .antMatchers("/api/favorite/**").hasRole("USER")
-//                .antMatchers(HttpMethod.GET, "/api/posts").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/posts/{id}").permitAll()
+                .antMatchers("/api/posts/**").hasRole("USER")
+                .antMatchers("/api/favorite/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/api/posts").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/{id}").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

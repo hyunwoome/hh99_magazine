@@ -24,7 +24,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final FavoriteRepository favoriteRepository;
 
-    // 전체 게시글 가져오기
+    // 전체 게시글 가져오기 (로그인은 OK)
     public List<PostResponseDto> readPosts(User user) {
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         List<Post> allPosts = postRepository.findAll();

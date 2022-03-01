@@ -1,10 +1,12 @@
 package com.sparta.hh99_magazine.controller;
 
 //import com.sparta.hh99_magazine.security.UserDetailsImpl;
+
 import com.sparta.hh99_magazine.service.FavoriteService;
 import com.sparta.hh99_magazine.service.PostService;
-        import lombok.RequiredArgsConstructor;
-        import org.springframework.web.bind.annotation.RequestMapping;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -14,6 +16,12 @@ public class FavoriteApiController {
 
     private final FavoriteService favoriteService;
     private final PostService postService;
+
+    // 좋아요
+//    @PostMapping("/favorite/{id}")
+//    public
+}
+
 
 //    @PostMapping("/favorite/{postId}")
 //    public FavoriteResponseDto createFavorite(@PathVariable Long postId,
@@ -46,4 +54,3 @@ public class FavoriteApiController {
 //        return new FavoriteResponseDto(user.getId(), postId, post.getImgUrl(), post.getContents(), post.getCreatedAt().toString(), post.getModifiedAt().toString(),
 //                postUser.getUsername(), postUser.getName(), cntLike, isLike);
 //    }
-}

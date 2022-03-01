@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -23,8 +25,13 @@ public class PostService {
     private final FavoriteRepository favoriteRepository;
 
     // 전체 게시글 가져오기
-
-    // 게시글 가져오기
+    public List<PostResponseDto> readPosts(User user) {
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+        List<Post> allPosts = postRepository.findAll();
+        allPosts.forEach(post ->
+                postResponseDtos.add(getCreatePostResponseDto(user, post)));
+        return postResponseDtos;
+    }
 
     // 게시글 작성하기
     public PostResponseDto createPost(CreatePostRequestDto createPostRequestDto, User postedUser) {

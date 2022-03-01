@@ -6,6 +6,7 @@ import com.sparta.hh99_magazine.domain.User;
 import com.sparta.hh99_magazine.dto.CreatePostRequestDto;
 import com.sparta.hh99_magazine.dto.PostResponseDto;
 import com.sparta.hh99_magazine.message.CreatePostMessageResponse;
+import com.sparta.hh99_magazine.message.DefaultMessageResponse;
 import com.sparta.hh99_magazine.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,12 @@ public class PostApiController {
     }
 
     // 게시글 삭제하기
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<DefaultMessageResponse> deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return new ResponseEntity<>(new DefaultMessageResponse("게시글이 삭제되었습니다."), HttpStatus.OK);
+    }
+
 
 
     // 게시글 삭제 (로그인 필)
@@ -50,18 +57,5 @@ public class PostApiController {
 //        if (Objects.equals(userDetails.getUsername(), postService.findPost(id).getUser().getUsername())) { postService.delete(id); }
 //        else { throw new UsernameNotSameException(); }
 //        return new ResponseEntity<>(new MessageResponse("게시글이 삭제되었습니다."), HttpStatus.OK);
-//    }
-
-    // 게시글 수정 (로그인 필)
-//    @PatchMapping("/posts/{id}")
-//    public ResponseEntity<MessageResponse> updatePost(@PathVariable Long id,
-//                                                      @RequestBody PostRequestDto postRequestDto,
-//                                                      @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        if (userDetails == null) { throw new LoginRequireException(); }
-//        if (Objects.equals(userDetails.getUsername(), postService.findPost(id).getUser().getUsername())) {
-//            postService.update(id, postRequestDto);
-//        }
-//        else { throw new UsernameNotSameException(); }
-//        return new ResponseEntity<>(new MessageResponse("게시글이 수정되었습니다."), HttpStatus.OK);
 //    }
 }

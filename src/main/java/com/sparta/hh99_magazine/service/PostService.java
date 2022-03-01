@@ -44,7 +44,13 @@ public class PostService {
         return getCreatePostResponseDto(user, post);
     }
 
-    // 데이터 가공 후 응답
+    // 게시글 삭제하기
+    public void deletePost(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(PostIdNotFoundException::new);
+        postRepository.delete(post);
+    }
+
+    // ResponseDto 응답 로직
     private PostResponseDto getCreatePostResponseDto(User user, Post post) {
         int countByPostId = favoriteRepository.countByPostId(post.getId());
         Optional<Favorite> favoriteUserId = favoriteRepository.findByUserIdAndPostId(user.getId());
@@ -60,17 +66,4 @@ public class PostService {
                 .isLike(favoriteUserId.isPresent())
                 .build();
     }
-
-    // 게시글 삭제하기
 }
-
-
-//    @Transactional
-//    public Post findPost(Long id) {
-//        return postRepository.findById(id).orElseThrow(PostIdNotFoundException::new);
-//    }
-//
-//    @Transactional
-//    public void delete(Long id) {
-//        postRepository.delete(findPost(id));
-//    }

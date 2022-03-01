@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -29,21 +28,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    // 토큰 예외
+    @Bean
+    RestAuthenticationEntryPoint authenticationEntryPoint() {
+        return new RestAuthenticationEntryPoint();
+    }
+
+    // 접근 제한 (당장 쓰진 X)
+    @Bean
+    RestAccessDeniedHandler accessDeniedHandler() { return new RestAccessDeniedHandler(); }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 역시 사용하지 않습니다.
+                    .httpBasic().disable()
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/api/posts/**").hasRole("USER")
-                .antMatchers("/api/favorite/**").hasRole("USER")
-                .antMatchers(HttpMethod.GET, "/api/posts").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/posts/{id}").permitAll()
-                .anyRequest().permitAll()
+                    .authorizeRequests()
+                    .antMatchers("/api/posts/**").hasRole("USER")
+                    .antMatchers("/api/favorite/**").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/api/posts").permitAll()
+                    .antMatchers(HttpMethod.GET, "/api/posts/{id}").permitAll()
+                    .anyRequest().permitAll()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                        UsernamePasswordAuthenticationFilter.class);
+                    .exceptionHandling()
+                    .authenticationEntryPoint(authenticationEntryPoint()) // 토큰 예외
+                    .accessDeniedHandler(accessDeniedHandler()) // 권한 예외
+                .and()
+                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                            UsernamePasswordAuthenticationFilter.class);
     }
 }

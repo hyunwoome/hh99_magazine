@@ -1,6 +1,5 @@
 package com.sparta.hh99_magazine.controller;
 
-import com.sparta.hh99_magazine.domain.Post;
 import com.sparta.hh99_magazine.domain.User;
 import com.sparta.hh99_magazine.dto.CreatePostRequestDto;
 import com.sparta.hh99_magazine.dto.PostResponseDto;
@@ -21,13 +20,20 @@ import java.util.List;
 public class PostApiController {
     private final PostService postService;
 
-    // 전체 게시글 가져오기
+    // 전체 (비로그인)
     @GetMapping("/posts")
-    public List<PostResponseDto> readPosts(@AuthenticationPrincipal User user) {
-        return postService.readPosts(user);
+    public List<PostResponseDto> readPosts() {
+        return postService.readPosts();
     }
 
-    // 게시글 작성하기
+
+    // 전체 (로그인)
+    @GetMapping("/posts/signed")
+    public List<PostResponseDto> readSigninPosts(@AuthenticationPrincipal User user) {
+        return postService.readSigninPosts(user);
+    }
+
+    // 작성
     @PostMapping("/posts")
     public ResponseEntity<PostMessageResponse> createPost(@RequestBody CreatePostRequestDto createPostRequestDto,
                                                           @AuthenticationPrincipal User user) {
@@ -35,7 +41,7 @@ public class PostApiController {
         return new ResponseEntity<>(new PostMessageResponse("게시글을 생성했습니다", postResponse), HttpStatus.OK);
     }
 
-    // 게시글 수정하기
+    // 수정
     @PatchMapping("/posts/{id}")
     public ResponseEntity<PostMessageResponse> updatePost(@PathVariable Long id,
                                                           @RequestBody CreatePostRequestDto createPostRequestDto,
@@ -44,7 +50,7 @@ public class PostApiController {
         return new ResponseEntity<>(new PostMessageResponse("게시글이 수정되었습니다", postResponse), HttpStatus.OK);
     }
 
-    // 게시글 삭제하기
+    // 삭제
     @DeleteMapping("/posts/{id}")
     public ResponseEntity<DefaultMessageResponse> deletePost(@PathVariable Long id) {
         postService.deletePost(id);

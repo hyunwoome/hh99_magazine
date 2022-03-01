@@ -1,5 +1,6 @@
 package com.sparta.hh99_magazine.dto;
 
+import com.sparta.hh99_magazine.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

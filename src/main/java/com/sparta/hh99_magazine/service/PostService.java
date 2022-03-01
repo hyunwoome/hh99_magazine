@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -24,16 +23,23 @@ public class PostService {
     private final PostRepository postRepository;
     private final FavoriteRepository favoriteRepository;
 
-    // 전체 게시글 가져오기 (로그인은 OK)
-    public List<PostResponseDto> readPosts(User user) {
+    // 전체 (비로그인)
+    public List<PostResponseDto> readPosts() {
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         List<Post> allPosts = postRepository.findAll();
-        allPosts.forEach(post ->
-                postResponseDtos.add(getCreatePostResponseDto(user, post)));
+        allPosts.forEach(post -> postResponseDtos.add(createPostResponse(post)));
         return postResponseDtos;
     }
 
-    // 게시글 작성하기
+    // 전체 (로그인)
+    public List<PostResponseDto> readSigninPosts(User user) {
+        List<PostResponseDto> postResponseDtos = new ArrayList<>();
+        List<Post> allPosts = postRepository.findAll();
+        allPosts.forEach(post -> postResponseDtos.add(CreateSigninPostResponse(user, post)));
+        return postResponseDtos;
+    }
+
+    // 작성
     public PostResponseDto createPost(CreatePostRequestDto createPostRequestDto, User postedUser) {
         Post post = Post.builder()
                 .imgUrl(createPostRequestDto.getImgUrl())
@@ -41,36 +47,50 @@ public class PostService {
                 .user(postedUser)
                 .build();
         postRepository.save(post);
-        return getCreatePostResponseDto(postedUser, post);
+        return CreateSigninPostResponse(postedUser, post);
     }
 
-    // 게시글 수정하기
+    // 수정
     public PostResponseDto updatePost(Long id, CreatePostRequestDto createPostRequestDto, User user) {
         Post post = postRepository.findById(id).orElseThrow(PostIdNotFoundException::new);
         post.update(createPostRequestDto);
-        return getCreatePostResponseDto(user, post);
+        return CreateSigninPostResponse(user, post);
     }
 
-    // 게시글 삭제하기
+    // 삭제
     public void deletePost(Long id) {
         Post post = postRepository.findById(id).orElseThrow(PostIdNotFoundException::new);
         postRepository.delete(post);
     }
 
-    // ResponseDto 응답 로직
-    private PostResponseDto getCreatePostResponseDto(User user, Post post) {
+    // Response (로그인)
+    private PostResponseDto CreateSigninPostResponse(User user, Post post) {
         int countByPostId = favoriteRepository.countByPostId(post.getId());
         Optional<Favorite> favoriteUserId = favoriteRepository.findByUserIdAndPostId(user.getId());
-
         return PostResponseDto.builder()
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())
                 .postId(post.getId())
                 .imgUrl(post.getImgUrl())
                 .contents(post.getContents())
-                .userId(user.getId())
+                .userId(post.getUser().getId())
                 .likeCnt(countByPostId)
                 .isLike(favoriteUserId.isPresent())
+                .build();
+    }
+
+    // Response (비로그인)
+    private PostResponseDto createPostResponse(Post post) {
+        int countByPostId = favoriteRepository.countByPostId(post.getId());
+        return PostResponseDto.builder()
+                .createdAt(post.getCreatedAt())
+                .modifiedAt(post.getModifiedAt())
+                .postId(post.getId())
+                .imgUrl(post.getImgUrl())
+                .contents(post.getContents())
+                .userId(post.getUser().getId())
+                .likeCnt(countByPostId)
+                .isLike(false)
                 .build();
     }
 }

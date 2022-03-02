@@ -22,9 +22,9 @@ public class FavoriteApiController {
     private final FavoriteService favoriteService;
 
     // 좋아요
-    @PostMapping("/favorite/{id}")
-    public ResponseEntity<PostMessageResponse> createFavorite(@PathVariable Long id, @AuthenticationPrincipal User user) {
-        PostResponseDto favoriteResponse = favoriteService.createFavorite(id, user);
+    @PostMapping("/favorite/{postId}")
+    public ResponseEntity<PostMessageResponse> createFavorite(@PathVariable Long postId, @AuthenticationPrincipal User user) {
+        PostResponseDto favoriteResponse = favoriteService.createFavorite(postId, user);
         return new ResponseEntity<>(new PostMessageResponse("좋아요 성공", favoriteResponse), HttpStatus.OK);
     }
 }

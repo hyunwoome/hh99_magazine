@@ -58,8 +58,11 @@ public class PostService {
     }
 
     // 삭제
-    public void deletePost(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(PostIdNotFoundException::new);
+    public void deletePost(Long postId, Long userId) {
+        Optional<Favorite> favorite = favoriteRepository
+                .findByUserIdAndPostId(userId, postId);
+        favorite.ifPresent(favoriteRepository::delete);
+        Post post = postRepository.findById(postId).orElseThrow(PostIdNotFoundException::new);
         postRepository.delete(post);
     }
 

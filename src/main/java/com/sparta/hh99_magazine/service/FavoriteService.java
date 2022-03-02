@@ -32,12 +32,11 @@ public class FavoriteService {
 
         if (favorite.isPresent()) {
             favoriteRepository.delete(favorite.get());
-            return CreateFavoriteResponse(user, post);
         } else {
             Favorite newFavorite = new Favorite(post, user);
             favoriteRepository.save(newFavorite);
-            return CreateFavoriteResponse(user, post);
         }
+        return CreateFavoriteResponse(user, post);
     }
 
     private PostResponseDto CreateFavoriteResponse(User user, Post post) {

@@ -52,8 +52,9 @@ public class PostApiController {
 
     // 삭제
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<DefaultMessageResponse> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+    public ResponseEntity<DefaultMessageResponse> deletePost(@PathVariable Long id,
+                                                             @AuthenticationPrincipal User user) {
+        postService.deletePost(id, user.getId());
         return new ResponseEntity<>(new DefaultMessageResponse("게시글이 삭제되었습니다."), HttpStatus.OK);
     }
 }

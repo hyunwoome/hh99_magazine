@@ -8,22 +8,18 @@
     <img alt="Amazon AWS" src="https://img.shields.io/badge/-Amazon AWS-232F3E?logo=Amazon AWS&logoColor=white"/>
 </p>
 
-### 개요
+## 개요
 
 - 스프링 시큐리티에서 JWT를 이용한 인증 및 인가 구현
 - 클라이언트와 서버간의 REST API 통신 구현
 
-<br/>
-
-### 기간
+## 기간
 
 - 2022.02.18 ~ 2021.03.02
 
-<br/>
+## API
 
-### API
-
-##### 게시글 (/api/posts)
+#### 게시글 (/api/posts)
 
 | NO  |    URL     | METHOD |                BODY                 |    RETURN     |   DESC    |
 |:---:|:----------:|:------:|:-----------------------------------:|:-------------:|:---------:|
@@ -33,28 +29,24 @@
 |  5  |  /:postId  | PATCH  |        name, title, content         |    게시글 정보     |  게시글 수정   |
 |  6  |  /:postId  | DELETE |                                     |      메세지      |  게시글 삭제   |  
 
-##### 사용자 (/api)
+#### 사용자 (/api)
 
 | NO  |   URL   | METHOD |                   BODY                   | RETURN | DESC |
 |:---:|:-------:|:------:|:----------------------------------------:|:------:|:----:|
 |  1  | /signup |  POST  | username, name, password, check_password |  메세지   | 회원가입 |
 |  2  | /signin |  POST  |            username, password            |  메세지   | 로그인  |
 
-##### 좋아요 (/api/favorite)
+#### 좋아요 (/api/favorite)
 
 | NO  |   URL    | METHOD | BODY | RETURN |  DESC  |
 |:---:|:--------:|:------:|:----:|:------:|:------:|
 |  1  | /:postId |  POST  |      | 게시글 정보 | 좋아요 토글 |
 
-<br/>
-
-### Domain
+## Domain
 
 ![domain](./img/domain.png)
 
-<br/>
-
-### 문제 해결
+## 문제 해결
 - JWT 필터에서 토큰 유효성 예외 처리 문제 
   - 인증 엔트리 포인트를 생성하여 필터단에서 예외를 잡을 수 있게 설정함
 

@@ -28,7 +28,6 @@ public class PostService {
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         List<Post> allPosts = postRepository.findAll();
         allPosts.forEach(post -> postResponseDtos.add(createPostResponse(post)));
-        System.out.println("비로그인");
         return postResponseDtos;
     }
 
@@ -37,7 +36,6 @@ public class PostService {
         List<PostResponseDto> postResponseDtos = new ArrayList<>();
         List<Post> allPosts = postRepository.findAll();
         allPosts.forEach(post -> postResponseDtos.add(CreateSigninPostResponse(user, post)));
-        System.out.println("로그인");
         return postResponseDtos;
     }
 
@@ -68,7 +66,7 @@ public class PostService {
     // Response (로그인)
     private PostResponseDto CreateSigninPostResponse(User user, Post post) {
         int countByPostId = favoriteRepository.countByPostId(post.getId());
-        Optional<Favorite> favoriteUserId = favoriteRepository.findByUserIdAndPostId(user.getId());
+        Optional<Favorite> favoriteUserId = favoriteRepository.findByUserIdAndPostId(user.getId(), post.getId());
         return PostResponseDto.builder()
                 .createdAt(post.getCreatedAt())
                 .modifiedAt(post.getModifiedAt())

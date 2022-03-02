@@ -11,9 +11,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     @Query("select count(f) from Favorite f where f.post.id = :postID")
     int countByPostId(@Param("postID") Long id);
 
-    @Query("select f from Favorite f where f.user.id = :userID")
-    Optional<Favorite> findByUserIdAndPostId(@Param("userID") Long userId);
-
-    // 누른 사람만 있으면 될 듯?
-    // @Query("select f from Favorite f where f.user.id = :userID and f.post.id = :postID")
+    @Query("select f from Favorite f where f.user.id = :userId and f.post.id = :postId")
+    Optional<Favorite> findByUserIdAndPostId(@Param("userId") Long userId, @Param("postId") Long postId);
 }
